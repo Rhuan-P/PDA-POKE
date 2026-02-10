@@ -1,6 +1,5 @@
-# Jogo PVP por Turnos
+# PDA-POKE - Jogo PVP por Turnos
 
-## O que é este projeto
 Jogo competitivo player-versus-player (PVP) baseado em turnos, inspirado em mechanics de Pokémon, com arquitetura limpa e modular para evolução sustentável.
 
 ## Objetivo do MVP
