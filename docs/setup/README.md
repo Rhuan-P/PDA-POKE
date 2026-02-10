@@ -10,15 +10,34 @@
 
 ### ✅ Configurações Realizadas
 
-#### 1. Estrutura de Arquivos
+#### ✅ Estrutura de Arquivos
 ```
 PDA-POKE/
 ├── docs/                    # Documentação DTF completa
 ├── backlog/                 # Backlogs organizados
-├── src/domain/interfaces/     # Contratos técnicos
-├── .github/workflows/        # CI/CD e automações
-├── .github/ISSUE_TEMPLATE/  # Templates DTF
-└── CONTRIBUTING.md          # Guia de contribuição
+├── src/                     # Código fonte com Clean Architecture
+│   ├── domain/             # 🎯 Regras de negócio
+│   │   └── interfaces/   # Contratos técnicos
+│   ├── application/         # 🔄 Orquestração
+│   │   └── interfaces/   # Interfaces da aplicação
+│   ├── infrastructure/       # 🔧 Detalhes técnicos
+│   │   └── interfaces/   # Interfaces da infraestrutura
+│   ├── ui/                 # 🎨 Interface usuário
+│   │   └── interfaces/   # Interfaces da UI
+│   └── index.ts           # 📦 Barrel export central
+│   ├── application/         # 🔄 Orquestração
+│   │   └── interfaces/   # Interfaces da aplicação
+│   ├── infrastructure/       # 🔧 Detalhes técnicos
+│   │   └── interfaces/   # Interfaces da infraestrutura
+│   ├── ui/                 # 🎨 Interface usuário
+│   │   └── interfaces/   # Interfaces da UI
+│   └── index.ts           # 📦 Barrel export central
+├── .github/workflows/        # 🚀 CI/CD e automações
+├── .github/ISSUE_TEMPLATE/  # 📋 Templates DTF
+├── CONTRIBUTING.md          # 📖 Guia de contribuição
+├── package.json            # 📦 Configuração TypeScript
+├── tsconfig.json           # ⚙️ Configuração do compilador
+└── README.md               # 📖 Documentação principal
 ```
 
 #### 2. CI/CD Pipeline
