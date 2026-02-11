@@ -21,13 +21,16 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci --only=production
+      run: npm ci
       
     - name: Run lint
-      run: npm run lint || echo "Lint skipped - no script yet"
+      run: npm run lint
+
+    - name: Check docs paths
+      run: npm run check:docs
       
     - name: Run tests
-      run: npm run test || echo "Tests skipped - no tests yet"
+      run: npm run test
       
     - name: Build project
-      run: npm run build || echo "Build skipped - no source yet"
+      run: npm run build
