@@ -1,0 +1,84 @@
+﻿/**
+ * Estilos globais da aplicaÃ§Ã£o
+ * Time UX: Implementar aqui estilos reutilizÃ¡veis
+ * 
+ * O que implementar:
+ * - VariÃ¡veis CSS
+ * - UtilitÃ¡rios
+ * - AnimaÃ§Ãµes
+ * - Cores de tipo PokÃ©mon
+ */
+
+/* VariÃ¡veis CSS */
+:root {
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --success-color: #48bb78;
+  --danger-color: #e53e3e;
+  --warning-color: #f6ad55;
+  --info-color: #4299e1;
+  
+  --text-primary: #2d3748;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7fafc;
+  --bg-tertiary: #e2e8f0;
+  
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  
+  --transition: all 0.2s ease;
+}
+
+/* TODO: Time UX - Implementar utilitÃ¡rios e animaÃ§Ãµes */
+.text-center { text-align: center; }
+.flex { display: flex; }
+.flex-center { align-items: center; justify-content: center; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* TODO: Time UX - Implementar cores de tipo PokÃ©mon */
+.type-fire { background: #f08030; }
+.type-water { background: #6890f0; }
+.type-grass { background: #78c850; }
+.type-normal { background: #a8a878; }
+.type-electric { background: #f8d030; }
+.type-psychic { background: #f85888; }
+.type-ice { background: #98d8d8; }
+.type-dragon { background: #7038f8; }
+.type-dark { background: #705848; }
+.type-fairy { background: #ee99ac; }
+.type-fighting { background: #c03028; }
+.type-flying { background: #a890f0; }
+.type-poison { background: #a040a0; }
+.type-ground { background: #e0c068; }
+.type-rock { background: #b8a038; }
+.type-bug { background: #a8b820; }
+.type-ghost { background: #705898; }
+.type-steel { background: #b8b8d0; }
+
+/* Responsividade */
+@media (max-width: 768px) {
+  :root {
+    --border-radius: 6px;
+    --border-radius-lg: 8px;
+    --border-radius-xl: 12px;
+  }
+}
+
