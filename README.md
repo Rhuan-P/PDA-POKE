@@ -26,17 +26,17 @@ src/
 ### 🎮 Game Logic Squad
 - **Focus**: Entidades, regras, cálculos
 - **Files**: `src/domain/`
-- **Issues**: GL-1 até GL-7
+- **Issues**: GL
 
 ### 🎨 User Experience Squad  
 - **Focus**: Interface, serviços, estado
 - **Files**: `src/services/`, `src/state/`, `src/ui/`
-- **Issues**: UX-1 até UX-8
+- **Issues**: UX
 
 ### ⚙️ DevOps Squad
 - **Focus**: Infraestrutura, CI/CD, qualidade
 - **Files**: `.github/`, scripts, docs
-- **Issues**: DO-1 até DO-4
+- **Issues**: DO
 
 ---
 
@@ -236,16 +236,6 @@ git checkout -b feature/GL-1-entidade-pokemon
 - `priority:p0` - Crítico
 - `priority:p1` - Importante
 - `priority:p2` - Baixo
-
----
-
-## 📈 Progresso
-
-- **Total Issues**: 19
-- **Game Logic**: 0/7 (0%)
-- **User Experience**: 0/8 (0%)
-- **DevOps**: 0/4 (0%)
-- **Milestone**: MVP 01/03/2026
 
 ---
 
