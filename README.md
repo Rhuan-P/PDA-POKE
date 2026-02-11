@@ -1,118 +1,181 @@
-﻿# PokÃ©mon Battle Simulator
+# 🎮 PDA-POKE - Pokémon Battle Simulator
 
-Um simulador de batalhas PokÃ©mon educacional com arquitetura limpa e separaÃ§Ã£o clara de responsabilidades.
+> Um simulador de batalhas Pokémon com arquitetura limpa e metodologia DTF
 
-## ðŸŽ¯ VisÃ£o Geral
+**Organização**: [Rhuan-P](https://github.com/Rhuan-P)
 
-Este projeto Ã© um exemplo educacional de como construir aplicaÃ§Ãµes frontend complexas usando arquitetura em camadas, Vue 3 como biblioteca, TypeScript e JavaScript de forma organizada e escalÃ¡vel.
+---
 
-## ðŸ‘¥ Equipes
+## 🎯 Visão Geral
 
-- **LÃ­der do Projeto:** Arquitetura + Apoio DevOps
-- **Time UX (2 pessoas):** Interface do usuÃ¡rio, comunicaÃ§Ã£o com APIs, estado reativo
-- **Time Game Logic:** Regras de negÃ³cio, cÃ¡lculos, validaÃ§Ãµes
+PDA-POKE é um simulador de batalhas Pokémon educacional que demonstra arquitetura limpa, separação clara de responsabilidades e metodologia DTF (Definição Técnica por Fases).
 
-## ðŸ—ï¸ Arquitetura
-
-O projeto segue uma arquitetura em 5 camadas bem definidas:
+### 🏗️ Arquitetura
 
 ```
 src/
- â”œâ”€ domain/           # TypeScript - Regras puras do jogo (Time Game Logic)
- â”œâ”€ application/      # TypeScript - OrquestraÃ§Ã£o e fluxos
- â”œâ”€ services/         # JavaScript - ComunicaÃ§Ã£o com APIs (Time UX)
- â”œâ”€ state/            # JavaScript - Estado reativo (Pinia) (Time UX)
- â”œâ”€ ui/               # Vue/JavaScript - Componentes visuais (Time UX)
- â”œâ”€ assets/           # Imagens, Ã­cones, recursos estÃ¡ticos
- â””â”€ main.js           # Bootstrap da aplicaÃ§Ã£o (Vue como biblioteca)
+├── domain/           # 🧠 Lógica de negócio pura (TypeScript)
+├── application/      # 🎮 Orquestração e fluxos (TypeScript)
+├── services/         # 🌐 Comunicação com APIs (JavaScript)
+├── state/           # 📊 Estado global (Pinia)
+├── ui/              # 🎨 Interface visual (Vue 3)
+└── assets/          # 📁 Recursos estáticos
 ```
 
-### ðŸ“š DocumentaÃ§Ã£o Completa
+---
 
-- **[ðŸ“– DocumentaÃ§Ã£o TÃ©cnica](./docs/README.md)** - Guia completo para desenvolvedores
-- **[ðŸ—ï¸ Arquitetura Principal](./docs/architecture/pokemon-battle-architecture.md)** - DefiniÃ§Ã£o detalhada das camadas
-- **[ðŸ› ï¸ Guia de ImplementaÃ§Ã£o](./docs/architecture/implementation-guide.md)** - Passo a passo prÃ¡tico
+## 👥 Times e Responsabilidades
 
-## ðŸš€ ComeÃ§ando
+### 🎮 Game Logic Squad
+- **Focus**: Entidades, regras, cálculos
+- **Files**: `src/domain/`
+- **Issues**: GL-1 até GL-7
 
-### PrÃ©-requisitos
+### 🎨 User Experience Squad  
+- **Focus**: Interface, serviços, estado
+- **Files**: `src/services/`, `src/state/`, `src/ui/`
+- **Issues**: UX-1 até UX-8
 
+### ⚙️ DevOps Squad
+- **Focus**: Infraestrutura, CI/CD, qualidade
+- **Files**: `.github/`, scripts, docs
+- **Issues**: DO-1 até DO-4
+
+---
+
+## 🚀 Começando
+
+### Pré-requisitos
 - Node.js >= 18.0.0
 - npm ou yarn
 
-### InstalaÃ§Ã£o
-
+### Instalação
 ```bash
-# Clone o repositÃ³rio
-git clone https://github.com/seu-usuario/PDA-POKE.git
+# Clone o repositório
+git clone https://github.com/Rhuan-P/PDA-POKE.git
 cd PDA-POKE
 
-# Instale as dependÃªncias
+# Instale as dependências
 npm install
 
-# Inicie o ambiente de desenvolvimento
+# Inicie o desenvolvimento
 npm run dev
 ```
 
-### Scripts DisponÃ­veis
-
+### Scripts Disponíveis
 ```bash
-npm run dev      # Inicia servidor de desenvolvimento
-npm run build    # Build para produÃ§Ã£o
+npm run dev      # Servidor de desenvolvimento
+npm run build    # Build para produção
 npm run test     # Executa testes
-npm run lint     # Verifica cÃ³digo
+npm run lint     # Verifica código
 npm run lint:fix # Corrige automaticamente
+npm run check:docs # Valida documentação
 ```
 
-## ðŸ“‹ Estrutura do Projeto
+---
 
-### Domain Layer (`src/domain/`) - **Time Game Logic**
-**Responsabilidade:** Regras puras do jogo PokÃ©mon
-- CÃ¡lculo de dano e eficÃ¡cia de tipos
-- ValidaÃ§Ã£o de jogadas e estado
-- Entidades: Pokemon, Battle, Stats
+## 📋 Metodologia DTF
 
-### Application Layer (`src/application/`) - **OrquestraÃ§Ã£o**
-**Responsabilidade:** CoordenaÃ§Ã£o entre camadas
-- Use cases de batalha
-- ComunicaÃ§Ã£o entre UI, Services e Domain
-- Sistema de eventos
+Este projeto segue rigorosamente a **Definição Técnica por Fases**:
 
-### Services Layer (`src/services/`) - **Time UX**
-**Responsabilidade:** ComunicaÃ§Ã£o externa
-- Cliente da PokeAPI
-- Tratamento de erros
-- Cache de dados
+### 🔹 DTR - Definição Técnica de Requisitos
+- **O QUÊ**: Problema e objetivo
+- **POR QUÊ**: Contexto e impacto  
+- **PARA QUÊ**: Benefícios esperados
 
-### State Layer (`src/state/`) - **Time UX**
-**Responsabilidade:** Estado reativo da UI
-- Stores com Pinia
-- Getters computados
-- Actions reativas
+### 🔹 DTI - Definição Técnica de Implementação
+- **COMO**: Tasks técnicas e passos
+- **ONDE**: Arquivos e componentes
+- **QUANDO**: Dependências e ordem
 
-### UI Layer (`src/ui/`) - **Time UX**
-**Responsabilidade:** Interface visual
-- Componentes Vue 3 (como biblioteca)
-- Views e layouts
-- InteraÃ§Ã£o com usuÃ¡rio
+### 🔹 DTA - Definição Técnica de Aceite
+- **CRITÉRIOS**: Como validar sucesso
+- **MÉTRICAS**: Como medir qualidade
+- **BLOQUEADORES**: O que impede entrega
 
-## ðŸŽ® Funcionalidades
+---
 
-- âœ… SeleÃ§Ã£o de PokÃ©mons via API
-- âœ… Sistema de batalha por turnos
-- âœ… CÃ¡lculo de dano baseado em tipos
-- âœ… Interface responsiva e reativa
-- âœ… Estado global com Pinia
+## 🎯 MVP Roadmap
 
-## ðŸ§ª Testes
+### Milestone: MVP 01/03/2026
 
-O projeto utiliza testes para garantir qualidade:
+**Game Logic (7 issues)**
+- [ ] GL-1 Entidade Pokemon
+- [ ] GL-2 StatCalculator
+- [ ] GL-3 TypeEffectiveness MVP
+- [ ] GL-4 DamageCalculator
+- [ ] GL-5 BattleService
+- [ ] GL-6 Constantes e Rules
+- [ ] GL-7 Entidade Skill
+
+**User Experience (8 issues)**
+- [ ] UX-1 PokeApiService + cache
+- [ ] UX-2 PokemonSelectionUseCase
+- [ ] UX-3 BattleUseCase
+- [ ] UX-4 State sem logica
+- [ ] UX-5 UI integrada
+- [ ] UX-6 Modal e HealthBar
+- [ ] UX-7 E2E MVP
+- [ ] UX-8 Fonte de Skills
+
+**DevOps (4 issues)**
+- [ ] DO-1 CI valido e bloqueante
+- [ ] DO-2 Validador de docs
+- [ ] DO-3 Template de PR
+- [ ] DO-4 Checklist release MVP
+
+---
+
+## 🔧 Padrões de Código
+
+### TypeScript (Domain & Application)
+```typescript
+// Interfaces para contratos
+interface Pokemon {
+  id: string
+  name: string
+  level: number
+  stats: PokemonStats
+}
+
+// Classes puras
+export class PokemonModel {
+  static create(name: string, level: number): Pokemon {
+    // Validações e criação
+  }
+}
+```
+
+### Vue 3 (UI)
+```vue
+<template>
+  <div class="pokemon-card">
+    <h2>{{ pokemon.name }}</h2>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { usePokemonStore } from '../../state/stores/pokemonStore'
+
+const props = defineProps<{
+  pokemonId: string
+}>()
+
+const pokemonStore = usePokemonStore()
+const pokemon = computed(() => pokemonStore.getPokemon(props.pokemonId))
+</script>
+```
+
+---
+
+## 🧪 Testes
 
 ```bash
-# Testes unitÃ¡rios (Domain)
+# Testes unitários (Domain)
 npm run test:unit
 
-# Testes de integraÃ§Ã£o (Application)
+# Testes de integração (Application)
 npm run test:integration
 
 # Testes E2E (UI)
@@ -122,49 +185,86 @@ npm run test:e2e
 npm run test
 ```
 
-## ðŸ“Š Qualidade
+---
 
-- **Lint:** ESLint com regras especÃ­ficas por camada
-- **TypeScript:** Para camadas crÃ­ticas (Domain, Application)
-- **JavaScript:** Para Services, State, UI
-- **Vue:** Como biblioteca, nÃ£o framework completo
-- **Test Coverage:** > 80% para cÃ³digo crÃ­tico
+## 📊 Qualidade
 
-## ðŸ¤ Como Contribuir
-
-### Para o Time Game Logic
-1. **Implemente as entidades** em `src/domain/entities/`
-2. **Desenvolva as regras** em `src/domain/services/`
-3. **Crie cÃ¡lculos** em `src/domain/utils/`
-4. **Mantenha pureza:** Sem dependÃªncias externas
-
-### Para o Time UX
-1. **Implemente serviÃ§os** em `src/services/`
-2. **Crie componentes** em `src/ui/components/`
-3. **Desenvolva views** em `src/ui/views/`
-4. **Configure estado** em `src/state/`
-5. **Use Vue como biblioteca:** Apenas reatividade
-
-### Para DevOps
-1. **Configure ambiente** de desenvolvimento
-2. **Implemente pipeline** de CI/CD
-3. **Garanta qualidade** do cÃ³digo
-4. **Documente processos**
-
-## ðŸ“œ LicenÃ§a
-
-MIT License - veja [LICENSE](LICENSE) para detalhes
-
-## ðŸ”— Links Ãšteis
-
-- **[DocumentaÃ§Ã£o TÃ©cnica](./docs/README.md)**
-- **[Arquitetura Completa](./docs/architecture/pokemon-battle-architecture.md)**
-- **[Guia de ImplementaÃ§Ã£o](./docs/architecture/implementation-guide.md)**
-- **[Backlog Game Logic](./backlog/backlog-squad-a.md)**
-- **[Backlog UX](./backlog/backlog-squad-b.md)**
-- **[Backlog DevOps](./backlog/backlog-devops.md)**
+- **Coverage**: > 80% unit, > 60% integration
+- **Lint**: ESLint com regras específicas
+- **TypeScript**: Strict mode para Domain/Application
+- **CI/CD**: Pipeline automatizado
 
 ---
 
-**âš ï¸ Nota:** Este Ã© um projeto educacional focado em demonstrar boas prÃ¡ticas de arquitetura frontend. A implementaÃ§Ã£o prioriza clareza e separaÃ§Ã£o de responsabilidades sobre otimizaÃ§Ãµes avanÃ§adas.
+## 🤝 Como Contribuir
 
+### 1. Escolha uma Issue
+- Verifique as [issues abertas](https://github.com/Rhuan-P/PDA-POKE/issues)
+- Filtre por sua squad: `?label=team:game-logic`, `?label=team:ux`, `?label=team:devops`
+
+### 2. Crie uma Branch
+```bash
+git checkout -b feature/GL-1-entidade-pokemon
+```
+
+### 3. Desenvolva com DTF
+- Preencha DTR na issue
+- Implemente seguindo DTI
+- Valide com DTA
+
+### 4. Pull Request
+- Use template DTF
+- Aguarde code review
+- Merge após aprovação
+
+---
+
+## 📚 Documentação
+
+- **[Setup](docs/setup/README.md)** - Guia para novos membros
+- **[Arquitetura](docs/architecture/pokemon-battle-architecture.md)** - Detalhes técnicos
+- **[Padrões DTF](docs/dtf/template-task-dtf.md)** - Convenções e boas práticas
+- **[Contribuição](CONTRIBUTING.md)** - Guia completo de contribuição
+
+---
+
+## 🏷️ Labels
+
+### Times
+- `team:game-logic` - Entidades, regras, cálculos
+- `team:ux` - Interface, serviços, estado  
+- `team:devops` - Infra, CI/CD, qualidade
+
+### Prioridade
+- `priority:p0` - Crítico
+- `priority:p1` - Importante
+- `priority:p2` - Baixo
+
+---
+
+## 📈 Progresso
+
+- **Total Issues**: 19
+- **Game Logic**: 0/7 (0%)
+- **User Experience**: 0/8 (0%)
+- **DevOps**: 0/4 (0%)
+- **Milestone**: MVP 01/03/2026
+
+---
+
+## 📜 Licença
+
+MIT License - veja [LICENSE](LICENSE) para detalhes
+
+---
+
+## 🔗 Links Úteis
+
+- **[Repositório](https://github.com/Rhuan-P/PDA-POKE)**
+- **[Issues](https://github.com/Rhuan-P/PDA-POKE/issues)**
+- **[Milestone MVP](https://github.com/Rhuan-P/PDA-POKE/milestone/1)**
+- **[CI/CD](https://github.com/Rhuan-P/PDA-POKE/actions)**
+
+---
+
+**⚡ Vamos construir algo incrível juntos!** 🚀
