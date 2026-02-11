@@ -287,7 +287,7 @@
    - `test` - executar testes
    - `lint` - verificar código
    - `lint:fix` - corrigir automaticamente
-3. Configurar `.vscode/` com:
+3. Configurar `.vscode` com:
    - Extensões recomendadas
    - Settings compartilhados
    - Launch configurations
@@ -380,7 +380,7 @@ src/
 ├── assets/
 └── main.js
 
-.vscode/
+.vscode
 ├── extensions.json
 ├── settings.json
 └── launch.json
