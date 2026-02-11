@@ -1,4 +1,5 @@
 ﻿export * from './entities/Pokemon';
+export * from './entities/Skill';
 export * from './interfaces';
 export * from './services/battleService';
 export * from './utils/StatCalculator';

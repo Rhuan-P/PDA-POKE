@@ -28,6 +28,7 @@ Bem-vindo à documentação técnica do PDA-POKE (Pokémon Battle Simulator)! Es
 - **[Guias de Desenvolvimento](./guides/)** - Onboarding e boas práticas
 - **[Padrões de Código](./patterns/)** - Convenções e revisão
 - **[APIs Internas](./api/)** - Referência técnica
+- **[Issues DTF](./issues/README.md)** - Lista de tasks e issues
 
 ### ⚙️ Configuração
 - **[Setup do Ambiente](./setup/)** - Configuração inicial do projeto
