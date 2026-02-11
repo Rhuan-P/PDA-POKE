@@ -8,3 +8,8 @@ export { IAction, IActionMethods } from './IAction';
 export { ISkill, ISkillMethods } from './ISkill';
 export { IPlayer, IPlayerMethods } from './IPlayer';
 export { IPvpSession, IPvpSessionMethods } from './IPvpSession';
+export { IPokemon } from './IPokemon';
+export { IBattle } from './IBattle';
+export { ITurnManager } from './ITurnManager';
+export { IActionValidator } from './IActionValidator';
+export { IVictoryConditions } from './IVictoryConditions';

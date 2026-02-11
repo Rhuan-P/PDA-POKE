@@ -4,4 +4,6 @@
  */
 
 // Interfaces da camada de Application serão adicionadas aqui
-// Exemplo: export { IBattleService } from './IBattleService';
+export { IBattleUseCase } from './IBattleUseCase';
+export { IPokemonSelectionUseCase } from './IPokemonSelectionUseCase';
+export { IEventBus } from './IEventBus';
