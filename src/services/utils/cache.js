@@ -15,5 +15,13 @@
     store.set(key, { value, expiresAt: Date.now() + ttlMs });
   }
 
-  return { get, set };
+  function has(key) {
+    return get(key) !== null;
+  }
+
+  function clear() {
+    store.clear();
+  }
+
+  return { get, set, has, clear };
 }
