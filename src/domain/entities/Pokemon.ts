@@ -33,7 +33,38 @@ export class PokemonModel {
    * Deve criar PokÃ©mon com stats vÃ¡lidos
    */
   static create(name: string, level: number = 1): Pokemon {
-    throw new Error('MÃ©todo a ser implementado pelo Time Game Logic');
+    if (!name || typeof name !== 'string') {
+      throw new Error('Nome do pokemon inválido');
+    }
+
+    if (!Number.isInteger(level) || level < 1) {
+      throw new Error('Level do pokemon inválido');
+    }
+
+    const trimmedName = name.trim();
+    const id = `${trimmedName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${level}`;
+
+    const maxHp = 20 + level * 6;
+    const hp = maxHp;
+    const attack = 5 + level * 3;
+    const defense = 5 + level * 2;
+    const speed = 5 + Math.floor(level * 1.5);
+
+    const pokemon: Pokemon = {
+      id,
+      name: trimmedName,
+      level,
+      types: ['normal'],
+      stats: {
+        hp,
+        maxHp,
+        attack,
+        defense,
+        speed,
+      },
+    };
+
+    return pokemon;
   }
 
   /**
@@ -41,7 +72,20 @@ export class PokemonModel {
    * Deve aplicar dano e retornar novo PokÃ©mon imutÃ¡vel
    */
   static takeDamage(pokemon: Pokemon, damage: number): Pokemon {
-    throw new Error('MÃ©todo a ser implementado pelo Time Game Logic');
+    if (typeof damage !== 'number' || Number.isNaN(damage) || damage <= 0) {
+      return { ...pokemon };
+    }
+
+    const applied = Math.max(0, Math.floor(damage));
+    const newHp = Math.max(0, pokemon.stats.hp - applied);
+
+    return {
+      ...pokemon,
+      stats: {
+        ...pokemon.stats,
+        hp: newHp,
+      },
+    };
   }
 
   /**
@@ -49,7 +93,7 @@ export class PokemonModel {
    * Deve verificar se HP <= 0
    */
   static isDefeated(pokemon: Pokemon): boolean {
-    throw new Error('MÃ©todo a ser implementado pelo Time Game Logic');
+    return pokemon.stats.hp <= 0;
   }
 }
 
