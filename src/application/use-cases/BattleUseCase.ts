@@ -20,7 +20,11 @@ export class BattleUseCase {
     private battleStore: IBattleStore
   ) {}
 
-  async executeAttack(attackerId: string, defenderId: string, skillId: string): Promise<{ damage: number; attacker: Pokemon; defender: Pokemon }> {
+  async executeAttack(
+    attackerId: string,
+    defenderId: string,
+    skillId: string
+  ): Promise<{ damage: number; attacker: Pokemon; defender: Pokemon }> {
     const attacker = await this.pokemonService.getPokemon(attackerId);
     const defender = await this.pokemonService.getPokemon(defenderId);
     const skill = await this.pokemonService.getSkill(skillId);
@@ -31,4 +35,3 @@ export class BattleUseCase {
     return { damage, attacker, defender };
   }
 }
-

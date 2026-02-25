@@ -1,8 +1,33 @@
-﻿import { handleApiResponse } from './error-handler.js';
+﻿const DEFAULT_TIMEOUT = 10000;
 
-export const apiClient = {
-  async get(url) {
-    const response = await fetch(url);
-    return handleApiResponse(response);
+export async function request(url, options = {}) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      const error = new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+      error.status = response.status;
+      throw error;
+    }
+
+    return await response.json();
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      throw new Error('Request timeout');
+    }
+    throw err;
   }
-};
+}
+
+export function get(url) {
+  return request(url, { method: 'GET' });
+}
