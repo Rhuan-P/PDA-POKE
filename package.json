@@ -2,22 +2,32 @@
   "name": "pokemon-battle-simulator",
   "version": "0.1.0",
   "description": "Simulador de batalhas Pokémon com arquitetura limpa",
-  "main": "src/main.js",
+  "main": "src/server.js",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "server": "node src/server.js",
+    "server:dev": "nodemon src/server.js",
+    "start": "concurrently \"npm run server\" \"npm run dev\"",
     "test": "jest --config jest.config.cjs",
     "test:watch": "jest --config jest.config.cjs --watch",
     "test:unit": "jest --config jest.config.cjs --testPathPattern=tests/unit",
     "test:integration": "jest --config jest.config.cjs --testPathPattern=tests/integration",
     "test:e2e": "jest --config jest.config.cjs --testPathPattern=tests/e2e",
+    "test:api": "jest --config jest.config.cjs --testPathPattern=tests/api",
     "check:docs": "node scripts/validate-doc-paths.cjs",
     "lint": "eslint src/**/*.{js,vue,ts}",
     "lint:fix": "eslint src/**/*.{js,vue,ts} --fix"
   },
-  "keywords": ["pokemon", "battle", "simulator", "vue", "typescript", "clean-architecture"],
+  "keywords": [
+    "pokemon",
+    "battle",
+    "simulator",
+    "vue",
+    "typescript"
+  ],
   "author": "Líder do Projeto",
   "license": "MIT",
   "devDependencies": {
@@ -32,11 +42,22 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vue/eslint-config-typescript": "^12.0.0",
-    "eslint-plugin-vue": "^9.0.0"
+    "eslint-plugin-vue": "^9.0.0",
+    "nodemon": "^3.0.0",
+    "concurrently": "^8.0.0",
+    "supertest": "^6.3.0"
   },
   "dependencies": {
     "vue": "^3.3.0",
-    "pinia": "^2.1.0"
+    "pinia": "^2.1.0",
+    "express": "^4.18.0",
+    "socket.io": "^4.7.0",
+    "socket.io-client": "^4.7.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "compression": "^1.7.4",
+    "uuid": "^9.0.0"
   },
   "engines": {
     "node": ">=18.0.0"
