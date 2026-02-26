@@ -2,8 +2,6 @@
 
 > Um simulador de batalhas Pokémon com arquitetura limpa e metodologia DTF
 
-**Organização**: [Rhuan-P](https://github.com/Rhuan-P)
-
 ---
 
 ## 🎯 Visão Geral
