@@ -1,20 +1,23 @@
 ﻿import type { IEventBus } from '../interfaces/IEventBus';
 
-type Handler = (...args: any[]) => void;
+type EventHandler<T = unknown> = (payload: T) => void;
 
-export class EventBus implements IEventBus {
-  private handlers: Record<string, Set<Handler>> = {};
+export class EventBus<T = Record<string, unknown>> implements IEventBus<T> {
+  private handlers: Record<string, Set<EventHandler>> = {};
 
-  on(event: string, handler: Handler): void {
-    if (!this.handlers[event]) this.handlers[event] = new Set();
-    this.handlers[event].add(handler);
+  on<K extends keyof T>(event: K, handler: EventHandler<T[K]>): void {
+    const eventKey = event as string;
+    if (!this.handlers[eventKey]) this.handlers[eventKey] = new Set();
+    this.handlers[eventKey].add(handler as EventHandler);
   }
 
-  off(event: string, handler: Handler): void {
-    this.handlers[event]?.delete(handler);
+  off<K extends keyof T>(event: K, handler: EventHandler<T[K]>): void {
+    const eventKey = event as string;
+    this.handlers[eventKey]?.delete(handler as EventHandler);
   }
 
-  emit(event: string, payload?: any): void {
-    this.handlers[event]?.forEach((handler) => handler(payload));
+  emit<K extends keyof T>(event: K, payload: T[K]): void {
+    const eventKey = event as string;
+    this.handlers[eventKey]?.forEach((handler) => handler(payload));
   }
 }
