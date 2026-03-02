@@ -1,10 +1,7 @@
 ﻿import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
-<<<<<<< HEAD
-import { processTurn } from '../../application/orchestrators/battleOrchestrator.js';
-=======
-import { PokemonSelectionUseCase } from '../../application/use-cases/PokemonSelectionUseCase';
+import { computed, ref } from 'vue';
 import { BattleUseCase } from '../../application/use-cases/BattleUseCase';
+import { PokemonSelectionUseCase } from '../../application/use-cases/PokemonSelectionUseCase';
 import { pokeApiService } from '../../services/pokeApiService.js';
 
 const pokemonServiceAdapter = {
@@ -12,7 +9,6 @@ const pokemonServiceAdapter = {
   getPokemonByName: (name) => pokeApiService.getPokemonByName(name),
   getSkill: (id) => pokeApiService.getSkill(id),
 };
->>>>>>> origin/main
 
 export const useGameStore = defineStore('game', () => {
   const player1 = ref({ pokemon: null, ready: false });
@@ -85,42 +81,6 @@ export const useGameStore = defineStore('game', () => {
   const executeTurn = async (action) => {
     if (!isBattleActive.value) return;
 
-<<<<<<< HEAD
-    // Delegate battle logic to the orchestrator (pure function)
-    const snapshot = {
-      player1: player1.value,
-      player2: player2.value,
-      currentTurn: currentTurn.value
-    };
-
-    const result = processTurn(snapshot, action);
-
-    // Apply logs
-    if (Array.isArray(result.logs)) {
-      result.logs.forEach((l) => addLogEntry(l));
-    }
-
-    // Apply defender HP update
-    if (result && typeof result.defenderHp === 'number') {
-      if (result.defenderPlayerId === 1) {
-        if (player1.value.pokemon) player1.value.pokemon.stats.hp = result.defenderHp;
-      } else {
-        if (player2.value.pokemon) player2.value.pokemon.stats.hp = result.defenderHp;
-      }
-    }
-
-    // If winner detected, finish battle
-    if (result && result.winnerId) {
-      endBattle(result.winnerId);
-      return;
-    }
-
-    // Otherwise advance turn
-    if (result && typeof result.nextTurn === 'number') {
-      currentTurn.value = result.nextTurn;
-      addLogEntry(`Vez do Jogador ${currentTurn.value}`);
-    }
-=======
     const attacker = currentTurn.value === 1 ? player1.value.pokemon : player2.value.pokemon;
     const defender = currentTurn.value === 1 ? player2.value.pokemon : player1.value.pokemon;
 
@@ -167,7 +127,6 @@ export const useGameStore = defineStore('game', () => {
     } catch (err) {
       error.value = err.message;
     }
->>>>>>> origin/main
   };
 
   const endBattle = (winnerId) => {
