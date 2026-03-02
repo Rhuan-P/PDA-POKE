@@ -1,7 +1,7 @@
 ﻿import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
-import { PokemonSelectionUseCase } from '../../application/use-cases/PokemonSelectionUseCase';
+import { computed, ref } from 'vue';
 import { BattleUseCase } from '../../application/use-cases/BattleUseCase';
+import { PokemonSelectionUseCase } from '../../application/use-cases/PokemonSelectionUseCase';
 import { pokeApiService } from '../../services/pokeApiService.js';
 
 const pokemonServiceAdapter = {
