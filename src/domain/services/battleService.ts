@@ -23,11 +23,21 @@ export interface BattleResult {
 
 export class BattleService {
   /**
-   * TODO: Time Game Logic - Implementar cÃ¡lculo de dano
-   * FÃ³rmula: (ataque / defesa) * baseDamage * eficÃ¡cia_tipo
+   * TODO: Time Game Logic - Implementar cálculo de dano
+   * Fórmula: (ataque / defesa) * baseDamage * eficácia_tipo
    */
   static calculateDamage(attacker: Pokemon, defender: Pokemon): number {
-    throw new Error('MÃ©todo a ser implementado pelo Time Game Logic');
+    const basePower = 40; // Poder base padrão para ataques simples
+    const effectiveness = 1; // Por enquanto, sem sistema de tipos implementado
+    
+    return DamageCalculator.calculate({
+      attack: attacker.stats.attack,
+      defense: defender.stats.defense,
+      power: basePower,
+      effectiveness,
+      stab: 1, // Sem STAB por enquanto
+      critical: 1 // Sem crítico por enquanto
+    });
   }
 
   /**

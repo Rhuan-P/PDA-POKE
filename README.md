@@ -1,6 +1,7 @@
 # 🎮 PDA-POKE - Pokémon Battle Simulator
 
 > Um simulador de batalhas Pokémon com arquitetura limpa e metodologia DTF
+
 ---
 
 ## 🎯 Visão Geral
