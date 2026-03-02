@@ -33,33 +33,38 @@ export class PokemonModel {
    * Deve criar PokÃ©mon com stats vÃ¡lidos
    */
   static create(name: string, level: number = 1): Pokemon {
-    if (!name) {
-      throw new Error("Pokemon precisa de um nome");
+    if (!name || typeof name !== 'string') {
+      throw new Error('Nome do pokemon inválido');
     }
 
-    if (level <= 0) {
-      throw new Error("Level deve ser maior que 0");
+    if (!Number.isInteger(level) || level < 1) {
+      throw new Error('Level do pokemon inválido');
     }
 
-    const baseHp = 50 + level * 10;
+    const trimmedName = name.trim();
+    const id = `${trimmedName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${level}`;
 
-    return {
-      id:
-        (globalThis as any).crypto &&
-        typeof (globalThis as any).crypto.randomUUID === "function"
-          ? (globalThis as any).crypto.randomUUID()
-          : `pk_${Math.random().toString(36).slice(2, 9)}`,
-      name,
+    const maxHp = 20 + level * 6;
+    const hp = maxHp;
+    const attack = 5 + level * 3;
+    const defense = 5 + level * 2;
+    const speed = 5 + Math.floor(level * 1.5);
+
+    const pokemon: Pokemon = {
+      id,
+      name: trimmedName,
       level,
-      types: [],
+      types: ['normal'],
       stats: {
-        hp: baseHp,
-        maxHp: baseHp,
-        attack: 10 + level * 2,
-        defense: 8 + level * 2,
-        speed: 5 + level * 2,
+        hp,
+        maxHp,
+        attack,
+        defense,
+        speed,
       },
     };
+
+    return pokemon;
   }
 
   /**
@@ -67,11 +72,12 @@ export class PokemonModel {
    * Deve aplicar dano e retornar novo PokÃ©mon imutÃ¡vel
    */
   static takeDamage(pokemon: Pokemon, damage: number): Pokemon {
-    if (damage < 0) {
-      throw new Error("Dano não pode ser negativo!");
+    if (typeof damage !== 'number' || Number.isNaN(damage) || damage <= 0) {
+      return { ...pokemon };
     }
 
-    const newHp = Math.max(0, pokemon.stats.hp - damage);
+    const applied = Math.max(0, Math.floor(damage));
+    const newHp = Math.max(0, pokemon.stats.hp - applied);
 
     return {
       ...pokemon,
