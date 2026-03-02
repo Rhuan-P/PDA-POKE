@@ -10,7 +10,7 @@
   - Estados visuais simples
 -->
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { computed } from 'vue';
 import PokemonCard from './PokemonCard.vue';
 import BattleButton from './BattleButton.vue';
 import { useGameStore } from '../../state/gameStore.js';
@@ -23,7 +23,7 @@ const props = defineProps({
   }
 });
 
-// Lista fixa de Pokémon para teste
+// Lista fixa de Pokémon para teste (remover/isolar em DEV depois)
 const availablePokemon = [
   { id: 25, name: 'Pikachu', types: ['electric'], sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png' },
   { id: 6, name: 'Charizard', types: ['fire', 'flying'], sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png' },
@@ -32,41 +32,31 @@ const availablePokemon = [
   { id: 133, name: 'Eevee', types: ['normal'], sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png' }
 ];
 
-const pokemon = ref(null);
 const gameStore = useGameStore();
 
-// Watch para resetar quando o store for resetado
-watch(() => gameStore.player1, (newPlayer1) => {
-  if (props.playerId === 1 && !newPlayer1.pokemon) {
-    console.log('🔄 PlayerArea resetando pokemon do Jogador 1');
-    pokemon.value = null;
-  }
+// Selected pokemon is consumed directly from the store (UI reads state only)
+// alias the computed value so template can reference it simply as `pokemon`
+const pokemon = computed(() => {
+  return props.playerId === 1 ? gameStore.player1.pokemon : gameStore.player2.pokemon;
 });
 
-watch(() => gameStore.player2, (newPlayer2) => {
-  if (props.playerId === 2 && !newPlayer2.pokemon) {
-    console.log('🔄 PlayerArea resetando pokemon do Jogador 2');
-    pokemon.value = null;
-  }
-});
-
-const selectPokemon = (selectedPokemon) => {
+const selectPokemon = (selected) => {
   const pokemonData = {
-    id: selectedPokemon.id.toString(),
-    name: selectedPokemon.name,
+    id: selected.id.toString(),
+    name: selected.name,
     level: 50,
-    types: selectedPokemon.types,
+    types: selected.types,
     stats: {
-      hp: 10,
+      hp: 100,
       maxHp: 100,
       attack: 85,
       defense: 80,
       speed: 90
     },
-    sprite: selectedPokemon.sprite
+    sprite: selected.sprite
   };
-  
-  pokemon.value = pokemonData;
+
+  // Use the store contract for selection (UI -> store action)
   gameStore.setPlayerPokemon(props.playerId, pokemonData);
 };
 </script>

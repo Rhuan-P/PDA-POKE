@@ -12,6 +12,7 @@
 
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { processTurn } from '../../application/orchestrators/battleOrchestrator.js';
 
 export const useGameStore = defineStore('game', () => {
   // Estado dos jogadores
@@ -78,28 +79,41 @@ export const useGameStore = defineStore('game', () => {
 
   const executeTurn = (action) => {
     if (!isBattleActive.value) return;
-    
-    const attacker = currentTurn.value === 1 ? player1.value.pokemon : player2.value.pokemon;
-    const defender = currentTurn.value === 1 ? player2.value.pokemon : player1.value.pokemon;
-    
-    // LÃ³gica de dano simples
-    const damage = Math.max(1, attacker.stats.attack - defender.stats.defense);
-    const actualDamage = Math.floor(damage * (0.8 + Math.random() * 0.4)); // 80-120% do dano base
-    
-    defender.stats.hp = Math.max(0, defender.stats.hp - actualDamage);
-    
-    addLogEntry(`âš”ï¸ ${attacker.name} atacou ${defender.name} e causou ${actualDamage} de dano!`);
-    
-    // Verificar se o defensor foi derrotado
-    if (defender.stats.hp <= 0) {
-      const winnerId = currentTurn.value;
-      endBattle(winnerId);
+
+    // Delegate battle logic to the orchestrator (pure function)
+    const snapshot = {
+      player1: player1.value,
+      player2: player2.value,
+      currentTurn: currentTurn.value
+    };
+
+    const result = processTurn(snapshot, action);
+
+    // Apply logs
+    if (Array.isArray(result.logs)) {
+      result.logs.forEach((l) => addLogEntry(l));
+    }
+
+    // Apply defender HP update
+    if (result && typeof result.defenderHp === 'number') {
+      if (result.defenderPlayerId === 1) {
+        if (player1.value.pokemon) player1.value.pokemon.stats.hp = result.defenderHp;
+      } else {
+        if (player2.value.pokemon) player2.value.pokemon.stats.hp = result.defenderHp;
+      }
+    }
+
+    // If winner detected, finish battle
+    if (result && result.winnerId) {
+      endBattle(result.winnerId);
       return;
     }
-    
-    // Trocar turno
-    currentTurn.value = currentTurn.value === 1 ? 2 : 1;
-    addLogEntry(`ðŸ”„ Vez do Jogador ${currentTurn.value}`);
+
+    // Otherwise advance turn
+    if (result && typeof result.nextTurn === 'number') {
+      currentTurn.value = result.nextTurn;
+      addLogEntry(`Vez do Jogador ${currentTurn.value}`);
+    }
   };
 
   const endBattle = (winnerId) => {
