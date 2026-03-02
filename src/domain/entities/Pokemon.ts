@@ -1,7 +1,7 @@
 ﻿/**
  * Modelo Pokemon - Estrutura base do PokÃ©mon
  * Time Game Logic: Implementar aqui a entidade Pokemon
- * 
+ *
  * O que implementar:
  * - Interface Pokemon com stats bÃ¡sicos
  * - Classe PokemonModel com mÃ©todos estÃ¡ticos
@@ -33,7 +33,33 @@ export class PokemonModel {
    * Deve criar PokÃ©mon com stats vÃ¡lidos
    */
   static create(name: string, level: number = 1): Pokemon {
-    throw new Error('MÃ©todo a ser implementado pelo Time Game Logic');
+    if (!name) {
+      throw new Error("Pokemon precisa de um nome");
+    }
+
+    if (level <= 0) {
+      throw new Error("Level deve ser maior que 0");
+    }
+
+    const baseHp = 50 + level * 10;
+
+    return {
+      id:
+        (globalThis as any).crypto &&
+        typeof (globalThis as any).crypto.randomUUID === "function"
+          ? (globalThis as any).crypto.randomUUID()
+          : `pk_${Math.random().toString(36).slice(2, 9)}`,
+      name,
+      level,
+      types: [],
+      stats: {
+        hp: baseHp,
+        maxHp: baseHp,
+        attack: 10 + level * 2,
+        defense: 8 + level * 2,
+        speed: 5 + level * 2,
+      },
+    };
   }
 
   /**
@@ -41,7 +67,19 @@ export class PokemonModel {
    * Deve aplicar dano e retornar novo PokÃ©mon imutÃ¡vel
    */
   static takeDamage(pokemon: Pokemon, damage: number): Pokemon {
-    throw new Error('MÃ©todo a ser implementado pelo Time Game Logic');
+    if (damage < 0) {
+      throw new Error("Dano não pode ser negativo!");
+    }
+
+    const newHp = Math.max(0, pokemon.stats.hp - damage);
+
+    return {
+      ...pokemon,
+      stats: {
+        ...pokemon.stats,
+        hp: newHp,
+      },
+    };
   }
 
   /**
@@ -49,7 +87,6 @@ export class PokemonModel {
    * Deve verificar se HP <= 0
    */
   static isDefeated(pokemon: Pokemon): boolean {
-    throw new Error('MÃ©todo a ser implementado pelo Time Game Logic');
+    return pokemon.stats.hp <= 0;
   }
 }
-
