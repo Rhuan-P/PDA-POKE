@@ -10,6 +10,8 @@
  */
 
 import { Pokemon } from '../entities/Pokemon';
+import { PokemonModel } from '../entities/Pokemon';
+import { DamageCalculator } from '../calculators/DamageCalculator';
 
 export interface BattleResult {
   // TODO: Time Game Logic - Definir estrutura de resultado
@@ -33,22 +35,65 @@ export class BattleService {
    * Baseado na velocidade dos PokÃ©mons
    */
   static getTurnOrder(pokemon1: Pokemon, pokemon2: Pokemon): [Pokemon, Pokemon] {
-    throw new Error('MÃ©todo a ser implementado pelo Time Game Logic');
+    if (pokemon1.stats.speed >= pokemon2.stats.speed) {
+  return [pokemon1, pokemon2];
+}
+return [pokemon2, pokemon1];
   }
-
   /**
    * TODO: Time Game Logic - Implementar simulaÃ§Ã£o completa
    * Executar batalha atÃ© um PokÃ©mon ser derrotado
    */
   static simulateBattle(pokemon1: Pokemon, pokemon2: Pokemon): BattleResult {
-    throw new Error('MÃ©todo a ser implementado pelo Time Game Logic');
+    let p1 = pokemon1;
+let p2 = pokemon2;
+let turns = 0;
+const log: string[] = [];
+
+while (p1.stats.hp > 0 && p2.stats.hp > 0) {
+  turns++;
+
+  const [first, second] = this.getTurnOrder(p1, p2);
+
+  const damage1 = this.calculateDamage(first, second);
+  const updatedSecond = PokemonModel.takeDamage(second, damage1);
+
+  log.push(`${first.name} causou ${damage1} de dano em ${second.name}`);
+
+  if (updatedSecond.stats.hp <= 0) {
+    return {
+      winner: first,
+      loser: updatedSecond,
+      turns,
+      log
+    };
+  }
+
+  const damage2 = this.calculateDamage(updatedSecond, first);
+  const updatedFirst = PokemonModel.takeDamage(first, damage2);
+
+  log.push(`${updatedSecond.name} causou ${damage2} de dano em ${first.name}`);
+
+  p1 = updatedFirst;
+  p2 = updatedSecond;
+}
+
+return {
+  winner: p1.stats.hp > 0 ? p1 : p2,
+  loser: p1.stats.hp <= 0 ? p1 : p2,
+  turns,
+  log
+};
   }
 
   /**
    * TODO: Time Game Logic - Implementar verificaÃ§Ã£o de vitÃ³ria
    */
   static getWinner(pokemon1: Pokemon, pokemon2: Pokemon): Pokemon | null {
-    throw new Error('MÃ©todo a ser implementado pelo Time Game Logic');
+    if (pokemon1.stats.hp <= 0) return pokemon2;
+if (pokemon2.stats.hp <= 0) return pokemon1;
+return null;
+  
   }
 }
 
