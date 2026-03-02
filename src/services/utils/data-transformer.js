@@ -1,16 +1,31 @@
 ﻿export function normalizePokemon(apiData) {
+  const stats = apiData.stats ?? [];
+
+  const findStat = (name) =>
+    stats.find((s) => s.stat.name === name)?.base_stat ?? 10;
+
   return {
-    id: apiData.id?.toString?.() ?? String(apiData.id),
+    id: String(apiData.id),
     name: apiData.name,
     level: 50,
-    types: (apiData.types || []).map((t) => t.type?.name ?? t),
+    types: (apiData.types ?? []).map((t) => t.type?.name ?? t),
     stats: {
-      hp: apiData.stats?.[0]?.base_stat ?? 10,
-      maxHp: apiData.stats?.[0]?.base_stat ?? 10,
-      attack: apiData.stats?.[1]?.base_stat ?? 10,
-      defense: apiData.stats?.[2]?.base_stat ?? 10,
-      speed: apiData.stats?.[5]?.base_stat ?? 10
+      hp: findStat('hp'),
+      maxHp: findStat('hp'),
+      attack: findStat('attack'),
+      defense: findStat('defense'),
+      speed: findStat('speed'),
     },
-    sprite: apiData.sprites?.front_default
+    sprite: apiData.sprites?.front_default ?? null,
+  };
+}
+
+export function normalizePokemonList(rawList) {
+  return {
+    count: rawList.count,
+    results: (rawList.results ?? []).map((r) => ({
+      name: r.name,
+      url: r.url,
+    })),
   };
 }

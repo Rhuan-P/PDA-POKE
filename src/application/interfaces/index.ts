@@ -4,6 +4,5 @@
  */
 
 // Interfaces da camada de Application serão adicionadas aqui
-export { IBattleUseCase } from './IBattleUseCase';
-export { IPokemonSelectionUseCase } from './IPokemonSelectionUseCase';
-export { IEventBus } from './IEventBus';
+export type { IPokemonSelectionUseCase } from "./IPokemonSelectionUseCase";
+export type { IEventBus } from "./IEventBus";

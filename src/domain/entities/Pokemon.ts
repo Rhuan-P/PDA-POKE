@@ -1,7 +1,7 @@
 ﻿/**
  * Modelo Pokemon - Estrutura base do PokÃ©mon
  * Time Game Logic: Implementar aqui a entidade Pokemon
- * 
+ *
  * O que implementar:
  * - Interface Pokemon com stats bÃ¡sicos
  * - Classe PokemonModel com mÃ©todos estÃ¡ticos
@@ -96,4 +96,3 @@ export class PokemonModel {
     return pokemon.stats.hp <= 0;
   }
 }
-
