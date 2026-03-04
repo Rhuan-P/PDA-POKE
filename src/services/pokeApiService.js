@@ -6,7 +6,6 @@ import { normalizePokemon, normalizePokemonList } from './utils/data-transformer
 const cache = createCache();
 
 const BASE_URL = 'https://pokeapi.co/api/v2';
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 export class PokeApiService {
   // Métodos Pokémon existentes
@@ -67,7 +66,7 @@ export class PokeApiService {
   // Métodos de Batalha (Backend API)
   async createBattle() {
     try {
-      const response = await post(`${API_BASE_URL}/battle/create`);
+      const response = await post('http://localhost:3001/api/battle/create');
       return response;
     } catch (error) {
       handleApiError(error, 'createBattle');
@@ -76,7 +75,7 @@ export class PokeApiService {
 
   async selectPokemon(battleId, playerId, pokemonName) {
     try {
-      const response = await post(`${API_BASE_URL}/battle/${battleId}/select`, {
+      const response = await post(`http://localhost:3001/api/battle/${battleId}/select`, {
         playerId,
         pokemonName
       });
@@ -88,7 +87,7 @@ export class PokeApiService {
 
   async startBattle(battleId) {
     try {
-      const response = await post(`${API_BASE_URL}/battle/${battleId}/start`);
+      const response = await post(`http://localhost:3001/api/battle/${battleId}/start`);
       return response;
     } catch (error) {
       handleApiError(error, 'startBattle');
@@ -97,7 +96,7 @@ export class PokeApiService {
 
   async getBattleStatus(battleId) {
     try {
-      const response = await get(`${API_BASE_URL}/battle/${battleId}/status`);
+      const response = await get(`http://localhost:3001/api/battle/${battleId}/status`);
       return response;
     } catch (error) {
       handleApiError(error, 'getBattleStatus');
@@ -106,7 +105,7 @@ export class PokeApiService {
 
   async executeTurn(battleId, playerId, action) {
     try {
-      const response = await post(`${API_BASE_URL}/battle/${battleId}/turn`, {
+      const response = await post(`http://localhost:3001/api/battle/${battleId}/turn`, {
         playerId,
         action
       });
@@ -118,7 +117,7 @@ export class PokeApiService {
 
   async deleteBattle(battleId) {
     try {
-      const response = await del(`${API_BASE_URL}/battle/${battleId}`);
+      const response = await del(`http://localhost:3001/api/battle/${battleId}`);
       return response;
     } catch (error) {
       handleApiError(error, 'deleteBattle');
@@ -128,7 +127,7 @@ export class PokeApiService {
   // Health check
   async healthCheck() {
     try {
-      const response = await get(`${API_BASE_URL.replace('/api', '')}/health`);
+      const response = await get('http://localhost:3001/health');
       return response;
     } catch (error) {
       handleApiError(error, 'healthCheck');
