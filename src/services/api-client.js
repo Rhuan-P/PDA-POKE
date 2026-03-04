@@ -1,4 +1,4 @@
-﻿const DEFAULT_TIMEOUT = 10000;
+const DEFAULT_TIMEOUT = 10000;
 
 export async function request(url, options = {}) {
   const controller = new AbortController();
@@ -30,4 +30,18 @@ export async function request(url, options = {}) {
 
 export function get(url) {
   return request(url, { method: 'GET' });
+}
+
+export function post(url, body) {
+  return request(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: typeof body === 'string' ? body : JSON.stringify(body)
+  });
+}
+
+export function del(url) {
+  return request(url, { method: 'DELETE' });
 }

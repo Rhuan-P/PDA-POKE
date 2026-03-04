@@ -4,12 +4,16 @@
 -->
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 
 const props = defineProps({
   pokemon: {
     type: Object,
     required: true
+  },
+  justFainted: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -28,8 +32,46 @@ const hpBarColor = computed(() => {
 });
 
 const isDefeated = computed(() => {
-  return (props.pokemon?.stats?.hp ?? 1) <= 0;
+  return (props.pokemon?.stats?.hp ?? 1) <= 0 || props.justFainted;
 });
+
+// Forçar atualização quando eventos customizados forem disparados
+const forceUpdate = () => {
+  console.log(' DEBUG: PokemonCard recebendo evento de atualização forçada')
+  // Forçar re-renderização do componente
+  const timestamp = Date.now()
+  if (window.pokemonCardLastUpdate && timestamp - window.pokemonCardLastUpdate < 100) {
+    return // Evitar múltiplas atualizações rápidas
+  }
+  window.pokemonCardLastUpdate = timestamp
+  
+  // Forçar Vue a reavaliar computed properties
+  const event = new CustomEvent('componentForceUpdate', { 
+    detail: { timestamp, pokemon: props.pokemon } 
+  })
+  window.dispatchEvent(event)
+}
+
+// Escutar eventos de atualização forçada
+onMounted(() => {
+  console.log(' DEBUG: PokemonCard montado, escutando eventos de atualização')
+  
+  window.addEventListener('forceUpdate', forceUpdate)
+  window.addEventListener('pokemonUpdate', forceUpdate)
+  window.addEventListener('faintedUpdate', forceUpdate)
+  window.addEventListener('criticalUpdate', forceUpdate)
+  
+  // Forçar primeira atualização
+  setTimeout(forceUpdate, 100)
+})
+
+onUnmounted(() => {
+  console.log(' DEBUG: PokemonCard desmontado, removendo listeners')
+  window.removeEventListener('forceUpdate', forceUpdate)
+  window.removeEventListener('pokemonUpdate', forceUpdate)
+  window.removeEventListener('faintedUpdate', forceUpdate)
+  window.removeEventListener('criticalUpdate', forceUpdate)
+})
 
 // cores por tipo de pokemon
 const typeColors = {
