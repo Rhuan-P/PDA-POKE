@@ -3,16 +3,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/pokemon.js",
-      "use": "@vercel/node"
-    },
-    {
       "src": "api/battle.js",
       "use": "@vercel/node"
     },
     {
+      "src": "api/pokemon.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "package.json",
-      "use": "@vercel/static-build",
+      "use": "@vercel/static",
       "config": {
         "distDir": "dist"
       }
@@ -20,19 +20,16 @@
   ],
   "routes": [
     {
-      "src": "/api/pokemon/(.*)",
-      "dest": "/api/pokemon.js"
-    },
-    {
       "src": "/api/battle/(.*)",
       "dest": "/api/battle.js"
+    },
+    {
+      "src": "/api/pokemon/(.*)",
+      "dest": "/api/pokemon.js"
     },
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
