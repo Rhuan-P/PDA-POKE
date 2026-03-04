@@ -12,85 +12,122 @@
 import { Pokemon, PokemonStats } from '../entities/Pokemon';
 
 export interface StatCalculation {
-  // TODO: Time Game Logic - Definir estrutura de cÃ¡lculo
   baseStats: PokemonStats;
   modifiedStats: PokemonStats;
   levelMultiplier: number;
 }
 
 export class StatCalculator {
+
+  private static safeNumber(value: number, fallback = 0): number {
+    return Number.isFinite(value) ? value : fallback;
+  }
+
+  private static clampMin(value: number, min: number): number {
+    return value < min ? min : value;
+  }
+
   /**
-   * TODO: Time Game Logic - Implementar cÃ¡lculo por nÃ­vel
-   * FÃ³rmula: stat = (baseStat * level / 50) + 5
+   * Cálculo por nível
+   * Fórmula: stat = (baseStat * level / 50) + 5
    */
   static calculateByLevel(baseStat: number, level: number): number {
-    return Math.floor((baseStat * level) / 50) + 5;
+    const safeBase = this.clampMin(this.safeNumber(baseStat), 0);
+    const safeLevel = this.clampMin(Math.floor(this.safeNumber(level, 1)), 1);
+
+    const value = Math.floor((safeBase * safeLevel) / 50 + 5);
+
+    return this.clampMin(value, 1);
   }
 
   /**
-   * TODO: Time Game Logic - Implementar cÃ¡lculo de todos os stats
+   * Calcula todos os stats sem mutar o input
    */
-  static calculateAllStats(baseStats: PokemonStats, level: number): PokemonStats {
-    const calculatedHp = this.calculateByLevel(baseStats.hp, level);
-    return {
-      hp: calculatedHp,
-      maxHp: calculatedHp,
-      attack: this.calculateByLevel(baseStats.attack, level),
-      defense: this.calculateByLevel(baseStats.defense, level),
-      speed: this.calculateByLevel(baseStats.speed, level),
-    };
-  }
+  static calculateAllStats(
+  baseStats: PokemonStats,
+  level: number
+): PokemonStats {
+  const safeBase = { ...baseStats };
+
+  const newMaxHp = this.calculateByLevel(safeBase.maxHp, level);
+
+  return {
+    hp: newMaxHp,
+    maxHp: newMaxHp,
+    attack: this.calculateByLevel(safeBase.attack, level),
+    defense: this.calculateByLevel(safeBase.defense, level),
+    speed: this.calculateByLevel(safeBase.speed, level),
+  };
+}
 
   /**
-   * TODO: Time Game Logic - Implementar modificadores
-   * Aplicar buffs/debuffs nos stats
+   * Aplica buffs/debuffs sem mutar o objeto original
    */
-  static applyModifiers(stats: PokemonStats, modifiers: Partial<PokemonStats>): PokemonStats {
-    return {
-      hp: modifiers.hp !== undefined ? stats.hp + modifiers.hp : stats.hp,
-      maxHp: modifiers.maxHp !== undefined ? stats.maxHp + modifiers.maxHp : stats.maxHp,
-      attack: modifiers.attack !== undefined ? stats.attack + modifiers.attack : stats.attack,
-      defense: modifiers.defense !== undefined ? stats.defense + modifiers.defense : stats.defense,
-      speed: modifiers.speed !== undefined ? stats.speed + modifiers.speed : stats.speed,
-    };
-  }
+  static applyModifiers(
+  stats: PokemonStats,
+  modifiers: Partial<PokemonStats>
+): PokemonStats {
+  const safeStats = { ...stats };
+
+  return {
+    hp: Math.max(0, safeStats.hp + (modifiers.hp ?? 0)),
+    maxHp: Math.max(1, safeStats.maxHp + (modifiers.maxHp ?? 0)),
+    attack: Math.max(0, safeStats.attack + (modifiers.attack ?? 0)),
+    defense: Math.max(0, safeStats.defense + (modifiers.defense ?? 0)),
+    speed: Math.max(0, safeStats.speed + (modifiers.speed ?? 0)),
+  };
+}
 
   /**
-   * TODO: Time Game Logic - Implementar vantagem de tipo
-   * Matriz de eficÃ¡cia: fire > grass, water > fire, etc
+   * Vantagem de tipo (matriz simplificada)
+   * Retorna multiplicador determinístico
    */
-  static getTypeAdvantage(attackerType: string, defenderType: string): number {
-    const effectivenessChart: Record<string, Record<string, number>> = {
-      fire: { grass: 2, water: 0.5, ice: 2, bug: 0.5, rock: 0.5, dragon: 0.5 },
-      water: { fire: 2, grass: 0.5, ice: 0.5, rock: 2, dragon: 0.5 },
-      grass: { fire: 0.5, water: 2, ice: 0.5, bug: 2, rock: 2, dragon: 0.5 },
-      electric: { water: 2, grass: 0.5, ice: 0.5, bug: 0.5, rock: 0.5, dragon: 0.5 },
-      normal: { rock: 0.5, ghost: 0, steel: 0.5 },
+  static getTypeAdvantage(
+    attackerType: string,
+    defenderType: string
+  ): number {
+    const matrix: Record<string, Record<string, number>> = {
+      fire: { grass: 2, water: 0.5, fire: 1, electric: 1 },
+      water: { fire: 2, grass: 0.5, water: 1, electric: 1 },
+      grass: { water: 2, fire: 0.5, grass: 1, electric: 1 },
+      electric: { water: 2, grass: 1, fire: 1, electric: 1 },
     };
 
-    return effectivenessChart[attackerType]?.[defenderType] ?? 1;
+    const atk = attackerType?.toLowerCase?.() ?? '';
+    const def = defenderType?.toLowerCase?.() ?? '';
+
+    return matrix[atk]?.[def] ?? 1;
   }
 
   /**
-   * TODO: Time Game Logic - Implementar cÃ¡lculo de dano completo
-   * Considerar todos os fatores: stats, nÃ­vel, tipo, etc
+   * Cálculo de dano completo (determinístico)
+   *
+   * Fórmula:
+   * damage = ((attack / defense) * baseDamage) * typeMultiplier
    */
   static calculateDamage(
     attacker: Pokemon,
     defender: Pokemon,
     baseDamage: number = 10
   ): number {
-    const typeAdvantage = this.getTypeAdvantage(
-      attacker.types[0] || 'normal',
-      defender.types[0] || 'normal'
-    );
+    const atkStats = attacker?.stats;
+    const defStats = defender?.stats;
 
-    const attack = attacker.stats.attack;
-    const defense = defender.stats.defense;
+    const attack = Math.max(1, atkStats?.attack ?? 1);
+    const defense = Math.max(1, defStats?.defense ?? 1);
+    const power = Math.max(1, this.safeNumber(baseDamage, 10));
 
-    const damage = Math.max(1, Math.floor((attack / defense) * baseDamage * typeAdvantage));
+  const attackerType = attacker?.types?.[0] ?? '';
+const defenderType = defender?.types?.[0] ?? '';
 
-    return damage;
+const typeMultiplier = this.getTypeAdvantage(
+  attackerType,
+  defenderType
+);
+
+    const rawDamage = (attack / defense) * power * typeMultiplier;
+
+    return Math.max(1, Math.floor(rawDamage));
   }
 }
 
