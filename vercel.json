@@ -1,35 +1,7 @@
 {
   "name": "pda-poke",
   "version": 2,
-  "builds": [
-    {
-      "src": "api/battle.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/pokemon.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "package.json",
-      "use": "@vercel/static",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/battle/(.*)",
-      "dest": "/api/battle.js"
-    },
-    {
-      "src": "/api/pokemon/(.*)",
-      "dest": "/api/pokemon.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite"
 }
