@@ -5,10 +5,7 @@ export default defineConfig({
   plugins: [vue()],
   root: '.',
   build: {
-    outDir: 'dist',
-    rollupOptions: {
-      input: './src/main.js'
-    }
+    outDir: 'dist'
   },
   server: {
     port: 3000,
